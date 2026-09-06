@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "context7": {
+      "source": "netresearch/context7-skill",
+      "sourceType": "github",
+      "skillPath": "skills/context7/SKILL.md",
+      "computedHash": "a36561b5d133cdb7a9cc1437681b19f11561b45721edc8179e81e6e0a4f5de37"
+    },
+    "frontend-design": {
+      "source": "am-will/codex-skills",
+      "sourceType": "github",
+      "skillPath": "skills/frontend-design/SKILL.md",
+      "computedHash": "d3334661de9ed476cdd2d4ebef8da6a1f0f0432915b2de035f5f2e989216dd94"
+    }
+  }
+}
