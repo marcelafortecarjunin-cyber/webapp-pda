@@ -52,6 +52,19 @@ npm run test:run   # unitarios e integración con Vitest
 - Los flujos documentados están en `tests/e2e/README.md`.
 - Antes de cerrar cambios, ejecutar también `npm.cmd run lint`, `npm.cmd run typecheck` y `npm.cmd run build`.
 
+## Repositorio y flujo GitHub
+
+El proyecto está publicado en `git@github.com:marcelafortecarjunin-cyber/webapp-pda.git`, usando `main` como rama principal.
+
+```bash
+git clone git@github.com:marcelafortecarjunin-cyber/webapp-pda.git
+cd webapp-pda
+git pull --ff-only
+git push origin main
+```
+
+La autenticación se realiza por SSH. Si una máquina nueva no tiene acceso, agregá su clave pública Ed25519 en `Settings → SSH and GPG keys` de GitHub. Nunca compartas ni versionés la clave privada. Antes de hacer commit, revisá `git status` y confirmá que `.env`, tokens, connection strings y artefactos generados estén excluidos.
+
 ## Mantenimiento de documentación
 
 - Cada nueva funcionalidad, cambio de flujo, comando, variable de entorno o decisión operativa debe reflejarse en este README dentro de la misma tarea.

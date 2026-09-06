@@ -35,6 +35,14 @@
 - Validá siempre los datos en el servidor, incluso si ya fueron validados en el navegador.
 - Toda ruta del panel y toda operación de administración debe requerir una sesión válida.
 
+## Git y publicación
+
+- El remoto principal es `git@github.com:marcelafortecarjunin-cyber/webapp-pda.git` y la rama principal es `main`.
+- Antes de cada commit, revisá `git status` y confirmá que no haya `.env`, claves privadas, tokens, connection strings ni artefactos generados.
+- Nunca uses `git push --force` sobre `main`; preservá el historial remoto y resolvé conflictos explícitamente.
+- Usá SSH con verificación de host habilitada; nunca desactives `StrictHostKeyChecking` para evitar errores de autenticación.
+- Si cambia el flujo de GitHub, el remoto, la rama principal o el proceso de publicación, actualizá `README.md` en la misma tarea.
+
 ## Performance y SEO
 
 - Mantené la landing renderizada en servidor siempre que sea posible.
