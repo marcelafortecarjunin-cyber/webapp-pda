@@ -59,11 +59,12 @@ El proyecto está publicado en `git@github.com:marcelafortecarjunin-cyber/webapp
 ```bash
 git clone git@github.com:marcelafortecarjunin-cyber/webapp-pda.git
 cd webapp-pda
+git switch dev
 git pull --ff-only
-git push origin main
+git push origin dev
 ```
 
-La autenticación se realiza por SSH. Si una máquina nueva no tiene acceso, agregá su clave pública Ed25519 en `Settings → SSH and GPG keys` de GitHub. Nunca compartas ni versionés la clave privada. Antes de hacer commit, revisá `git status` y confirmá que `.env`, tokens, connection strings y artefactos generados estén excluidos.
+El trabajo diario se realiza sobre `dev`. La rama `main` se mantiene estable y se actualiza mediante una integración revisada. La autenticación se realiza por SSH. Si una máquina nueva no tiene acceso, agregá su clave pública Ed25519 en `Settings → SSH and GPG keys` de GitHub. Nunca compartas ni versionés la clave privada. Antes de hacer commit, revisá `git status` y confirmá que `.env`, tokens, connection strings y artefactos generados estén excluidos.
 
 ## Mantenimiento de documentación
 

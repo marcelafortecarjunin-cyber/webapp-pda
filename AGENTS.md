@@ -7,6 +7,13 @@
 - Usá npm para el package management y preferí librerías conocidas, activamente mantenidas y proporcionales al problema.
 - Consultá `context7` antes de implementar APIs o patrones dependientes de versiones.
 
+## Estrategia de ramas
+
+- Trabajá siempre sobre `dev`; es la rama de desarrollo habitual y sigue a `origin/dev`.
+- Mantené `main` estable y publicable; no desarrolles directamente sobre esa rama.
+- Antes de empezar una tarea, confirmá la rama activa con `git status --short --branch` y actualizá `dev` con `git pull --ff-only`.
+- Publicá los cambios de desarrollo con `git push origin dev`. Pasá cambios a `main` únicamente mediante una integración revisada.
+
 ## Mejora continua y conocimiento del proyecto
 
 - Después de cada tarea relevante, revisá si surgió un aprendizaje, una decisión, un límite o un fallo que pueda repetirse.
