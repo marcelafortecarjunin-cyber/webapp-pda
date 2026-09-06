@@ -57,6 +57,15 @@
 - Optimizá imágenes con `next/image`, tamaños responsive y carga diferida cuando corresponda.
 - Verificá Core Web Vitals, metadata, sitemap, robots y datos estructurados antes de publicar.
 
+## Vercel y entornos
+
+- Usá Vercel Hobby únicamente para demo o staging no comercial; la producción comercial requiere un plan compatible con la política de Vercel o un hosting alternativo.
+- Configurá `dev` como Preview/staging y reservá `main` para una futura publicación estable.
+- En staging, usá `DEMO_MODE=true`, credenciales de demo y ningún dato real. El almacenamiento en memoria no es persistente entre instancias, reinicios o despliegues.
+- Definí las variables sensibles en la configuración del proyecto de Vercel, nunca en el repositorio. No cargues `MONGODB_URI` en staging demo.
+- No agregues `vercel.json` ni configuración de runtime si Next.js puede ser detectado automáticamente; documentá primero cualquier excepción.
+- Si la integración GitHub de Vercel no tiene permisos sobre el repositorio, usá `vercel deploy --target preview --yes` desde `dev` y documentá la limitación; no publiques manualmente como producción.
+
 ## Testing obligatorio
 
 - Usá Vitest para pruebas unitarias y de integración. Los tests viven en `tests/unit` y `tests/integration`.

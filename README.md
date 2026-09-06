@@ -66,6 +66,37 @@ git push origin dev
 
 El trabajo diario se realiza sobre `dev`. La rama `main` se mantiene estable y se actualiza mediante una integración revisada. La autenticación se realiza por SSH. Si una máquina nueva no tiene acceso, agregá su clave pública Ed25519 en `Settings → SSH and GPG keys` de GitHub. Nunca compartas ni versionés la clave privada. Antes de hacer commit, revisá `git status` y confirmá que `.env`, tokens, connection strings y artefactos generados estén excluidos.
 
+## Staging demo en Vercel
+
+El proyecto es compatible con Vercel sin `vercel.json`: al importar el repositorio, Vercel detecta Next.js y sus comandos estándar automáticamente. La configuración recomendada es:
+
+- Rama `dev`: Preview/Staging.
+- Rama `main`: futura publicación estable.
+- `DEMO_MODE=true`: permite probar sin MongoDB, pero los leads se guardan en memoria y pueden desaparecer al reiniciar, cambiar de instancia o desplegar una nueva versión.
+
+Para crear el staging:
+
+1. Importá `marcelafortecarjunin-cyber/webapp-pda` en Vercel.
+2. Configurá `dev` como rama de Preview.
+3. Cargá en el entorno Preview variables exclusivas de demo:
+   - `DEMO_MODE=true`
+   - `AUTH_SECRET`
+   - `ADMIN_EMAIL`
+   - `ADMIN_PASSWORD`
+   - `NEXT_PUBLIC_SITE_URL` con la URL de Preview.
+4. No cargues `MONGODB_URI` ni datos reales en este staging.
+5. Probá landing, envío de lead, login admin y protección de `/admin`.
+
+Staging actual: [plan-ahorro-chevrolet-staging.vercel.app](https://plan-ahorro-chevrolet-staging.vercel.app/). Proyecto: [Vercel Dashboard](https://vercel.com/pda5/plan-ahorro-chevrolet).
+
+La integración automática con GitHub requiere que Vercel tenga acceso al repositorio. Mientras esa autorización no esté habilitada, desplegá manualmente desde `dev`:
+
+```bash
+npx vercel deploy --target preview --yes
+```
+
+El plan Hobby gratuito de Vercel sirve para una demo no comercial. Esta app no debe desplegarse allí como producción comercial; para producción se debe evaluar Vercel Pro o un hosting compatible, configurar `DEMO_MODE=false` y usar MongoDB con sus credenciales almacenadas exclusivamente en Vercel.
+
 ## Mantenimiento de documentación
 
 - Cada nueva funcionalidad, cambio de flujo, comando, variable de entorno o decisión operativa debe reflejarse en este README dentro de la misma tarea.
