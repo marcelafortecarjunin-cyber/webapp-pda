@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { getIncomeRangeLabel } from "@/lib/income-ranges";
 
 export type AdminLead = {
   _id: string;
   fullName: string;
   email: string;
   planName: string;
+  incomeRange?: string;
   status: "nuevo" | "contactado" | "cerrado";
   createdAt: string;
 };
@@ -43,7 +45,7 @@ export function AdminLeadTable({ leads }: { leads: AdminLead[] }) {
   return (
     <div className="overflow-hidden rounded-2xl border border-black/10 bg-cream">
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[720px] text-left text-sm">
+        <table className="w-full min-w-[860px] text-left text-sm">
           <thead className="border-b border-black/10 bg-ink text-[10px] uppercase tracking-[0.13em] text-white/65">
             <tr>
               <th className="px-5 py-4 font-bold">Lead</th>
@@ -62,6 +64,7 @@ export function AdminLeadTable({ leads }: { leads: AdminLead[] }) {
                   </a>
                 </td>
                 <td className="px-5 py-5 font-semibold">{lead.planName}</td>
+                <td className="px-5 py-5 text-xs font-semibold text-black/65">{getIncomeRangeLabel(lead.incomeRange)}</td>
                 <td className="px-5 py-5 text-xs text-black/55">
                   {new Intl.DateTimeFormat("es-AR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(lead.createdAt))}
                 </td>

@@ -7,6 +7,7 @@ describe("validación de leads", () => {
       fullName: "Sofía Martínez",
       email: "sofia@example.com",
       planSlug: "tracker-lt-at",
+      incomeRange: "1m-2m",
       website: "",
     });
 
@@ -28,6 +29,7 @@ describe("validación de leads", () => {
       fullName: "Sofía Martínez",
       email: "sofia@example.com",
       planSlug: "tracker-lt-at",
+      incomeRange: "1m-2m",
       website: "bot",
     });
 

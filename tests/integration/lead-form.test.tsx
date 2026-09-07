@@ -25,6 +25,9 @@ describe("formulario de captación", () => {
     fireEvent.change(screen.getByLabelText("Plan que te interesa"), {
       target: { value: "onix-lt-mt" },
     });
+    fireEvent.change(screen.getByLabelText("Ingresos mensuales aproximados"), {
+      target: { value: "2m-3m" },
+    });
 
     fireEvent.submit(screen.getByRole("button", { name: /quiero que me contacten/i }).closest("form")!);
 
@@ -37,6 +40,7 @@ describe("formulario de captación", () => {
         body: expect.stringContaining('"planSlug":"onix-lt-mt"'),
       }),
     );
+    expect(fetchMock.mock.calls[0][1].body).toContain('"incomeRange":"2m-3m"');
     expect(await screen.findByText("Listo. Un asesor va a contactarte muy pronto.")).toBeTruthy();
   });
 });

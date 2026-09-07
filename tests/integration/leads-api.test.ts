@@ -53,6 +53,7 @@ describe("API de leads en modo demo", () => {
           fullName: "Lead de integración",
           email,
           planSlug: "tracker-lt-at",
+          incomeRange: "2m-3m",
           website: "",
         }),
         headers: { "content-type": "application/json" },
@@ -67,7 +68,7 @@ describe("API de leads en modo demo", () => {
     expect(listResponse.status).toBe(200);
     expect(list.leads).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({ email, planName: "Tracker LT AT", status: "nuevo" }),
+        expect.objectContaining({ email, planName: "Tracker LT AT", incomeRange: "2m-3m", status: "nuevo" }),
       ]),
     );
   });

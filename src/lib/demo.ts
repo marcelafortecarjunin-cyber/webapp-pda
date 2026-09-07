@@ -9,6 +9,7 @@ const initialDemoLeads: DemoLead[] = [
     email: "sofia.demo@ejemplo.com",
     planSlug: "tracker-lt-at",
     planName: "Tracker LT AT",
+    incomeRange: "2m-3m",
     status: "nuevo",
     source: "demo",
     createdAt: new Date("2026-09-05T14:30:00.000Z"),
@@ -40,16 +41,18 @@ export function createDemoLead(lead: LeadDocument) {
   return item;
 }
 
-export function listDemoLeads(options?: { query?: string; status?: string }) {
+export function listDemoLeads(options?: { query?: string; status?: string; incomeRange?: string }) {
   const query = options?.query?.toLowerCase() ?? "";
   const status = options?.status ?? "";
+  const incomeRange = options?.incomeRange ?? "";
 
   return getStore().filter((lead) => {
     const matchesQuery =
       !query ||
       [lead.fullName, lead.email, lead.planName].some((value) => value.toLowerCase().includes(query));
     const matchesStatus = !status || lead.status === status;
-    return matchesQuery && matchesStatus;
+    const matchesIncomeRange = !incomeRange || lead.incomeRange === incomeRange;
+    return matchesQuery && matchesStatus && matchesIncomeRange;
   });
 }
 

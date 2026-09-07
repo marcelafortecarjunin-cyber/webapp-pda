@@ -1,4 +1,5 @@
 import { MongoClient, type Db } from "mongodb";
+import type { IncomeRange } from "@/lib/income-ranges";
 
 const uri = process.env.MONGODB_URI;
 const dbName = process.env.MONGODB_DB ?? "chevrolet_leads";
@@ -40,6 +41,7 @@ export type LeadDocument = {
   email: string;
   planSlug: string;
   planName: string;
+  incomeRange?: IncomeRange;
   status: LeadStatus;
   source: string;
   createdAt: Date;
