@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth";
+import { incomeRanges } from "@/lib/income-ranges";
 import { getDatabase, type LeadDocument } from "@/lib/mongodb";
 import { getPlanBySlug } from "@/lib/plans";
 import { leadSchema } from "@/lib/validation";
@@ -30,11 +31,13 @@ export async function GET(request: Request) {
     const url = new URL(request.url);
     const query = url.searchParams.get("q")?.trim() ?? "";
     const status = url.searchParams.get("status") ?? "";
+    const requestedIncomeRange = url.searchParams.get("incomeRange") ?? "";
+    const incomeRange = incomeRanges.some((range) => range.value === requestedIncomeRange) ? requestedIncomeRange : "";
     const page = Math.max(1, Number(url.searchParams.get("page") ?? "1") || 1);
     const pageSize = 20;
 
     if (isDemoMode()) {
-      const demoLeads = listDemoLeads({ query, status });
+      const demoLeads = listDemoLeads({ query, status, incomeRange });
       return NextResponse.json({
         leads: demoLeads.slice((page - 1) * pageSize, page * pageSize),
         total: demoLeads.length,
@@ -54,6 +57,7 @@ export async function GET(request: Request) {
       ];
     }
     if (["nuevo", "contactado", "cerrado"].includes(status)) filter.status = status;
+    if (incomeRange) filter.incomeRange = incomeRange;
 
     const db = await getDatabase();
     const [leads, total] = await Promise.all([
@@ -114,6 +118,7 @@ export async function POST(request: Request) {
       email: parsed.data.email.toLowerCase(),
       planSlug: plan.slug,
       planName: plan.name,
+      incomeRange: parsed.data.incomeRange as LeadDocument["incomeRange"],
       status: "nuevo",
       source: requestHeaders.get("referer") ?? "landing",
       createdAt: now,

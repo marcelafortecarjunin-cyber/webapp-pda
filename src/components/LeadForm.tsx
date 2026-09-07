@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import { incomeRanges } from "@/lib/income-ranges";
 import { plans } from "@/lib/plans";
 
 type LeadFormProps = {
@@ -105,6 +106,30 @@ export function LeadForm({ initialPlan = "" }: LeadFormProps) {
             </option>
           ))}
         </select>
+      </div>
+      <div>
+        <label htmlFor="incomeRange" className="mb-2 block text-xs font-bold uppercase tracking-[0.12em]">
+          Ingresos mensuales aproximados
+        </label>
+        <select
+          id="incomeRange"
+          name="incomeRange"
+          defaultValue=""
+          required
+          className="w-full appearance-none rounded-xl border border-black/15 bg-white/80 px-4 py-3.5 text-sm outline-none transition focus:border-ink focus:ring-2 focus:ring-yellow"
+        >
+          <option value="" disabled>
+            Elegí un rango
+          </option>
+          {incomeRanges.map((range) => (
+            <option key={range.value} value={range.value}>
+              {range.label}
+            </option>
+          ))}
+        </select>
+        <p className="mt-2 text-[11px] leading-5 text-black/50">
+          Usamos este dato para priorizar la atención de las consultas.
+        </p>
       </div>
       <button
         type="submit"

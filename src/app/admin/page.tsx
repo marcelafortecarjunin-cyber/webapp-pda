@@ -4,13 +4,14 @@ import { redirect } from "next/navigation";
 import { AdminLeadTable, type AdminLead } from "@/components/AdminLeadTable";
 import { LogoutButton } from "@/components/AdminLeadTable";
 import { getSession } from "@/lib/auth";
+import { incomeRanges } from "@/lib/income-ranges";
 import { getDatabase, type LeadDocument } from "@/lib/mongodb";
 import { isDemoMode, listDemoLeads } from "@/lib/demo";
 
 export const dynamic = "force-dynamic";
 
 type AdminPageProps = {
-  searchParams: Promise<{ q?: string; status?: string }>;
+  searchParams: Promise<{ q?: string; status?: string; incomeRange?: string }>;
 };
 
 export default async function AdminPage({ searchParams }: AdminPageProps) {
@@ -20,6 +21,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const params = await searchParams;
   const query = params.q?.trim() ?? "";
   const status = params.status ?? "";
+  const requestedIncomeRange = params.incomeRange ?? "";
+  const incomeRange = incomeRanges.some((range) => range.value === requestedIncomeRange) ? requestedIncomeRange : "";
   const filter: Record<string, unknown> = {};
 
   if (query) {
@@ -30,16 +33,18 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     ];
   }
   if (["nuevo", "contactado", "cerrado"].includes(status)) filter.status = status;
+  if (incomeRange) filter.incomeRange = incomeRange;
 
   let leads: AdminLead[] = [];
   let loadError = "";
   try {
     if (isDemoMode()) {
-      leads = listDemoLeads({ query, status }).slice(0, 100).map((lead) => ({
+      leads = listDemoLeads({ query, status, incomeRange }).slice(0, 100).map((lead) => ({
         _id: lead._id,
         fullName: lead.fullName,
         email: lead.email,
         planName: lead.planName,
+        incomeRange: lead.incomeRange,
         status: lead.status,
         createdAt: lead.createdAt.toISOString(),
       }));
@@ -56,6 +61,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         fullName: lead.fullName,
         email: lead.email,
         planName: lead.planName,
+        incomeRange: lead.incomeRange,
         status: lead.status,
         createdAt: lead.createdAt.toISOString(),
       }));
@@ -105,6 +111,17 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             <option value="nuevo">Nuevos</option>
             <option value="contactado">Contactados</option>
             <option value="cerrado">Cerrados</option>
+          </select>
+          <label className="sr-only" htmlFor="incomeRange">
+            Filtrar por rango de ingresos
+          </label>
+          <select id="incomeRange" name="incomeRange" defaultValue={incomeRange} className="min-h-11 rounded-xl border border-black/10 bg-white px-4 text-sm outline-none focus:border-ink focus:ring-2 focus:ring-yellow">
+            <option value="">Todos los ingresos</option>
+            {incomeRanges.map((range) => (
+              <option key={range.value} value={range.value}>
+                {range.label}
+              </option>
+            ))}
           </select>
           <button className="min-h-11 rounded-xl bg-ink px-5 text-xs font-bold uppercase tracking-[0.1em] text-white transition hover:bg-yellow hover:text-ink" type="submit">
             Filtrar
